@@ -7,6 +7,7 @@ import { categoryFilters } from "@/constans";
 import CustomMenu from "./CustomMenu";
 import Button from "./Button";
 import { createNewProject, fetchToken } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
 type Props = {
   type: string;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const ProjectForm = ({ type, session }: Props) => {
+  const router = useRouter();
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -24,8 +26,13 @@ const ProjectForm = ({ type, session }: Props) => {
     try {
       if (type === "create") {
         await createNewProject(form, session?.user?.id, token);
+        router.push("/");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,21 +63,21 @@ const ProjectForm = ({ type, session }: Props) => {
     title: "",
     description: "",
     image: "",
-    liveSiteUrl: "",
+    liveStieUrl: "",
     githubUrl: "",
     category: "",
   });
 
   return (
     <form onSubmit={handleFormSubmit} className="flexStart form">
-      <div className="flextStart form_image-container">
+      <div className="flexStart form_image-container">
         <label htmlFor="poster" className="flexCenter form_image-label">
           {!form.image && "Choose a poster for your project"}
         </label>
         <input
           id="image"
           type="file"
-          accept="image/**"
+          accept="image/*"
           required={type === "create"}
           className="form_image-input"
           onChange={handleChangeImage}
@@ -95,14 +102,14 @@ const ProjectForm = ({ type, session }: Props) => {
         title="Description"
         state={form.description}
         placeholder="Showcase and discover remakable developer projects."
-        setState={(value) => handleStateChange("title", value)}
+        setState={(value) => handleStateChange("description", value)}
       />
       <FormField
         type="url"
-        title="wevsite URL"
-        state={form.liveSiteUrl}
+        title="website URL"
+        state={form.liveStieUrl}
         placeholder="https://google.com"
-        setState={(value) => handleStateChange("liveSiteUrl", value)}
+        setState={(value) => handleStateChange("liveStieUrl", value)}
       />
       <FormField
         type="url"

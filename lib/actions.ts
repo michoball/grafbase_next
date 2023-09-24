@@ -3,6 +3,7 @@ import {
   createProjectMutation,
   createUserMutation,
   getUserQuery,
+  projectsQuery,
 } from "@/graphql";
 import { GraphQLClient } from "graphql-request";
 
@@ -17,7 +18,9 @@ const serverUrl = isProduction
   ? process.env.NEXT_PUBLIC_SERVER_URL
   : "http://localhost:3000";
 
-const client = new GraphQLClient(apiUrl);
+const client = new GraphQLClient(
+  "https://grafbasenext-master-michoball.grafbase.app/graphql"
+);
 
 const makeGraphQLRequest = async (query: string, variables = {}) => {
   try {
@@ -28,12 +31,18 @@ const makeGraphQLRequest = async (query: string, variables = {}) => {
 };
 
 export const getUser = (email: string) => {
-  client.setHeader("x-api-key", apiKey);
+  client.setHeader(
+    "x-api-key",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTQ4Njc4NTcsImlzcyI6ImdyYWZiYXNlIiwiYXVkIjoiMDFIQUVaWTc3R1cyWUtNV1JXTU5XUDdaTkgiLCJqdGkiOiIwMUhBRVpZOEVOREYzUjU5TVo5UVg5RDgzWiIsImVudiI6InByb2R1Y3Rpb24iLCJwdXJwb3NlIjoicHJvamVjdC1hcGkta2V5In0.WiaQP8js0vkAf1C_28UKT0mQ6KMfsDV51BCRpZ5GBo8"
+  );
   return makeGraphQLRequest(getUserQuery, { email });
 };
 
 export const createUser = (name: string, email: string, avatarUrl: string) => {
-  client.setHeader("x-api-key", apiKey);
+  client.setHeader(
+    "x-api-key",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTQ4Njc4NTcsImlzcyI6ImdyYWZiYXNlIiwiYXVkIjoiMDFIQUVaWTc3R1cyWUtNV1JXTU5XUDdaTkgiLCJqdGkiOiIwMUhBRVpZOEVOREYzUjU5TVo5UVg5RDgzWiIsImVudiI6InByb2R1Y3Rpb24iLCJwdXJwb3NlIjoicHJvamVjdC1hcGkta2V5In0.WiaQP8js0vkAf1C_28UKT0mQ6KMfsDV51BCRpZ5GBo8"
+  );
 
   const variables = {
     input: {
@@ -90,4 +99,16 @@ export const createNewProject = async (
 
     return makeGraphQLRequest(createProjectMutation, variables);
   }
+};
+
+export const fetchAllProjects = async (
+  category?: string,
+  endcursor?: string
+) => {
+  client.setHeader(
+    "x-api-key",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTQ4Njc4NTcsImlzcyI6ImdyYWZiYXNlIiwiYXVkIjoiMDFIQUVaWTc3R1cyWUtNV1JXTU5XUDdaTkgiLCJqdGkiOiIwMUhBRVpZOEVOREYzUjU5TVo5UVg5RDgzWiIsImVudiI6InByb2R1Y3Rpb24iLCJwdXJwb3NlIjoicHJvamVjdC1hcGkta2V5In0.WiaQP8js0vkAf1C_28UKT0mQ6KMfsDV51BCRpZ5GBo8"
+  );
+
+  return makeGraphQLRequest(projectsQuery, { category, endcursor });
 };

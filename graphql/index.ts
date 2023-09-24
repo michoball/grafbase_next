@@ -5,7 +5,7 @@ export const createProjectMutation = `
 				id
 				title
 				description
-				createdBy {
+				createBy {
 					email
 					name
 				}
@@ -21,7 +21,7 @@ export const updateProjectMutation = `
 				id
 				title
 				description
-				createdBy {
+				createBy {
 					email
 					name
 				}
@@ -52,11 +52,11 @@ export const projectsQuery = `
           title
           githubUrl
           description
-          liveSiteUrl
+          liveStieUrl
           id
           image
           category
-          createdBy {
+          createBy {
             id
             email
             name
@@ -75,10 +75,10 @@ export const getProjectByIdQuery = `
       title
       description
       image
-      liveSiteUrl
+      liveStieUrl
       githubUrl
       category
-      createdBy {
+      createBy {
         id
         name
         email
@@ -127,7 +127,7 @@ export const getProjectsOfUserQuery = `
       description
       avatarUrl
       githubUrl
-      linkedinUrl
+      linkedInUrl
       projects(last: $last) {
         edges {
           node {
