@@ -16,11 +16,9 @@ type ProjectsSearch = {
 };
 
 const Home = async () => {
-  const data = (await fetchAllProjects()) as ProjectsSearch;
+  const data = (await fetchAllProjects("Frontend", "")) as ProjectsSearch;
 
   const projectsToDisplay = data?.projectSearch?.edges || [];
-
-  console.log(data);
 
   if (!projectsToDisplay.length) {
     return (
@@ -36,8 +34,8 @@ const Home = async () => {
   return (
     <section className="flex-start flex-col paddings mb-16">
       <h1>Categories</h1>
-      <section className="project-grid">
-        {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
+      <section className="projects-grid">
+        {projectsToDisplay?.map(({ node }: { node: ProjectInterface }) => (
           <ProjectCard
             key={node?.id}
             id={node?.id}

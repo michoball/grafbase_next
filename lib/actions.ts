@@ -2,6 +2,7 @@ import { ProjectForm } from "@/common.types";
 import {
   createProjectMutation,
   createUserMutation,
+  getProjectByIdQuery,
   getUserQuery,
   projectsQuery,
 } from "@/graphql";
@@ -111,4 +112,12 @@ export const fetchAllProjects = async (
   );
 
   return makeGraphQLRequest(projectsQuery, { category, endcursor });
+};
+
+export const getProjectDetails = (id: string) => {
+  client.setHeader(
+    "x-api-key",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTQ4Njc4NTcsImlzcyI6ImdyYWZiYXNlIiwiYXVkIjoiMDFIQUVaWTc3R1cyWUtNV1JXTU5XUDdaTkgiLCJqdGkiOiIwMUhBRVpZOEVOREYzUjU5TVo5UVg5RDgzWiIsImVudiI6InByb2R1Y3Rpb24iLCJwdXJwb3NlIjoicHJvamVjdC1hcGkta2V5In0.WiaQP8js0vkAf1C_28UKT0mQ6KMfsDV51BCRpZ5GBo8"
+  );
+  return makeGraphQLRequest(getProjectByIdQuery, { id });
 };
