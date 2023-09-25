@@ -1,5 +1,7 @@
 import { ProjectInterface } from "@/common.types";
 import Modal from "@/components/Modal";
+import ProjectActions from "@/components/ProjectActions";
+import RelatedProjects from "@/components/RelatedProjects";
 import { getProjectDetails } from "@/lib/actions";
 import { getCurrentUser } from "@/lib/session";
 import Image from "next/image";
@@ -52,7 +54,7 @@ const Project = async ({ params: { id } }: { params: { id: string } }) => {
 
         {session?.user?.email === projectDetails?.createBy?.email && (
           <div className="flex justify-end items-center gap-2">
-            {/* <ProjectActions projectId={projectDetails?.id} /> */}
+            <ProjectActions projectId={projectDetails?.id} />
           </div>
         )}
       </section>
@@ -107,10 +109,10 @@ const Project = async ({ params: { id } }: { params: { id: string } }) => {
         <span className="w-full h-0.5 bg-light-white-200" />
       </section>
 
-      {/* <RelatedProjects
+      <RelatedProjects
         userId={projectDetails?.createBy?.id}
         projectId={projectDetails?.id}
-      /> */}
+      />
     </Modal>
   );
 };
